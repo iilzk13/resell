@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resell Store</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .product {
+            border: 1px solid white;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+        }
+        .product img {
+            width: 100px;
+            height: 100px;
+        }
+        .btn {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Resell Store</h1>
+    <div id="products"></div>
+
+    <script>
+        const products = [
+            {name: "Product 1", price: "$10", img: "https://via.placeholder.com/100"},
+            {name: "Product 2", price: "$20", img: "https://via.placeholder.com/100"}
+        ];
+
+        function loadProducts() {
+            const container = document.getElementById("products");
+            container.innerHTML = "";
+            products.forEach((product, index) => {
+                container.innerHTML += `
+                    <div class="product">
+                        <img src="${product.img}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>${product.price}</p>
+                        <button class="btn" onclick="buy(${index})">Buy Now</button>
+                    </div>
+                `;
+            });
+        }
+
+        function buy(index) {
+            alert("Redirecting to payment for " + products[index].name);
+        }
+
+        loadProducts();
+    </script>
+</body>
+</html>
