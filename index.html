@@ -8,61 +8,115 @@
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         body {
-            background-color: black;
+            background-color: #121212;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
         }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
         .product {
             border: 1px solid white;
-            padding: 10px;
-            margin: 10px;
+            padding: 15px;
+            margin: 15px;
             display: inline-block;
+            width: 250px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
         }
         .product img {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            border-radius: 10px;
         }
         .btn {
             background-color: white;
             color: black;
-            padding: 10px;
+            padding: 10px 15px;
             cursor: pointer;
+            border: none;
+            margin: 5px;
+            border-radius: 5px;
         }
         #adminPanel, #cart {
             margin-top: 20px;
             border: 1px solid white;
-            padding: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #1e1e1e;
         }
         input {
-            padding: 5px;
+            padding: 8px;
             margin: 5px;
+            width: 90%;
+            border-radius: 5px;
+            border: none;
+        }
+        #loginPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #loginBox {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Resell Store</h1>
-    <div id="products"></div>
-    
-    <div id="adminPanel">
-        <h2>Admin Panel</h2>
-        <input type="text" id="productName" placeholder="Product Name">
-        <input type="text" id="productPrice" placeholder="Price">
-        <input type="text" id="productImg" placeholder="Image URL">
-        <button class="btn" onclick="addProduct()">Add Product</button>
+    <div id="loginPage">
+        <div id="loginBox">
+            <h2>Admin Login</h2>
+            <input type="password" id="passwordInput" placeholder="Enter Password">
+            <button class="btn" onclick="checkLogin()">Login</button>
+        </div>
     </div>
 
-    <div id="cart">
-        <h2>Shopping Cart</h2>
-        <div id="cartItems"></div>
-        <div id="paypal-button-container"></div>
-        <button class="btn" onclick="checkoutStripe()">Pay with Stripe</button>
-        <button class="btn" onclick="payWithCashApp()">Pay with CashApp</button>
+    <div class="container">
+        <h1>Welcome to My Resell Store</h1>
+        <div id="products"></div>
+    
+        <div id="adminPanel" style="display: none;">
+            <h2>Admin Panel</h2>
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="text" id="productPrice" placeholder="Price">
+            <input type="text" id="productImg" placeholder="Image URL">
+            <button class="btn" onclick="addProduct()">Add Product</button>
+        </div>
+    
+        <div id="cart">
+            <h2>Shopping Cart</h2>
+            <div id="cartItems"></div>
+            <div id="paypal-button-container"></div>
+            <button class="btn" onclick="checkoutStripe()">Pay with Stripe</button>
+            <button class="btn" onclick="payWithCashApp()">Pay with CashApp</button>
+        </div>
     </div>
 
     <script>
         let products = [];
         let cart = [];
+        const adminPassword = "admin123";
+
+        function checkLogin() {
+            const password = document.getElementById("passwordInput").value;
+            if (password === adminPassword) {
+                document.getElementById("loginPage").style.display = "none";
+                document.getElementById("adminPanel").style.display = "block";
+            } else {
+                alert("Incorrect password!");
+            }
+        }
 
         function loadProducts() {
             const container = document.getElementById("products");
@@ -115,7 +169,6 @@
 
         function checkoutStripe() {
             alert("Redirecting to Stripe Checkout...");
-            // Here, you need to set up Stripe payment integration on your server
         }
 
         function payWithCashApp() {
@@ -127,7 +180,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '10.00' // Replace with total cart value
+                            value: '10.00' 
                         }
                     }]
                 });
